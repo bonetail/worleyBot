@@ -1,6 +1,7 @@
 /config.py
 /nohup.out
-/*.pyc
+*.pyc
+/__pycache__/
 /used-dank.txt
 /output-db/
 /dank-db/
