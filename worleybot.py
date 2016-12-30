@@ -63,7 +63,7 @@ def tweetRandomMeme():
 def tweetDankMeme():
 	t = authenticate()
 	while True:
-		chosenPic = random.choice(os.listdir('../dank-db/'))
+		chosenPic = random.choice(os.listdir('dank-db/'))
 #		print(chosenPic)
 		chosenPic = 'dank-db/' + chosenPic
 		with open(chosenPic, "rb") as imagefile:
@@ -71,9 +71,9 @@ def tweetDankMeme():
 		t_upload = Twitter(domain='upload.twitter.com',
 		auth=OAuth(config.token, config.token_secret, config.consumer_key, config.consumer_secret))
 		imgID = t_upload.media.upload(media=imagedata)["media_id_string"]
-		t.statuses.update(status="-hourly #meme drop-\nRT to spread the love! #dankmemes", media_ids=imgID)
+		t.statuses.update(media_ids=imgID)
 		
-		with open('/used-dank.txt', 'a') as myfile:
+		with open('used-dank.txt', 'a') as myfile:
 			myfile.write(str(chosenPic) + '\n')
 		os.remove(chosenPic)
 #		print("MEME: DONE. Waiting...")
@@ -96,7 +96,7 @@ def tweetRandomTumblrPost():
 				continue
 			for i in range(postLength):
 				formattedText = post[i].encode('utf-8').decode('unicode_escape').encode('ascii','ignore').decode('ascii','ignore')
-				print('grabbed: ' + formattedText)
+#				print('grabbed: ' + formattedText)
 				if len(formattedText) < 129:
 					foundText = True
 					doneRemovingUsernames = False

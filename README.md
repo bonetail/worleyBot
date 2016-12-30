@@ -1,4 +1,7 @@
-#worleyBot - A complex internet-scraping and soon-to-be interactive Twitter bot#
+#worleyBot
+
+##A complex internet-scraping and interactive (coming soon) Twitter bot##
+
 
 ###@author: David Worley###
 
