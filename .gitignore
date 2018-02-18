@@ -1,7 +1,5 @@
-/config.py
+/creds.py
 /nohup.out
 *.pyc
 /__pycache__/
-/used-dank.txt
-/output-db/
-/dank-db/
+secret
