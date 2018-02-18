@@ -6,6 +6,7 @@ from twitter import *
 import urllib.request
 import praw
 import os
+import random
 
 import creds # auth info
 
@@ -23,18 +24,47 @@ def tweetRedditMeme():
 	r = praw.Reddit(client_id=creds.client_id, client_secret=creds.client_secret,
                      password=creds.password, user_agent=creds.user_agent,
                      username=creds.username)
-	meme = r.subreddit('dankmemes').random()
+	meme = r.subreddit('dankmemes+offensivememes').random()
 	urllib.request.urlretrieve(meme.url, "dank.jpg")
 	with open("dank.jpg", "rb") as imagefile:
 		img = imagefile.read()
 	t = authenticate() # authenticates my Twitter account credentials
 	t_upload = Twitter(domain='upload.twitter.com',
-		auth=OAuth(creds.token, creds.token_secret, creds.consumer_key, creds.consumer_secret))	
+		auth=OAuth(creds.token, creds.token_secret, creds.consumer_key, creds.consumer_secret))
 	imgID = t_upload.media.upload(media=img)["media_id_string"]
 	t.statuses.update(media_ids=imgID)
 	os.remove("dank.jpg") # delete temporarily-created file
 
 # ------------------------------------------------- #
+
+def tweetTopMeme():
+    r = praw.Reddit(client_id=creds.client_id, client_secret=creds.client_secret,
+                     password=creds.password, user_agent=creds.user_agent,
+                     username=creds.username)
+    while True:
+        try:
+            choice = random.randint(0, 1999)
+            counter = 0
+            for item in r.subreddit('memes+dankmemes+funny').top('all', limit=2000):
+                if (counter == choice):
+                    meme = item
+                    print(counter)
+                    break
+                counter = counter + 1
+                # print(counter)
+            urllib.request.urlretrieve(meme.url, "dank.jpg")
+            with open("dank.jpg", "rb") as imagefile:
+        	    img = imagefile.read()
+            t = authenticate() # authenticates my Twitter account credentials
+            t_upload = Twitter(domain='upload.twitter.com',
+                auth=OAuth(creds.token, creds.token_secret, creds.consumer_key, creds.consumer_secret))
+            imgID = t_upload.media.upload(media=img)["media_id_string"]
+            t.statuses.update(media_ids=imgID)
+            os.remove("dank.jpg") # delete temporarily-created file
+        except:
+            continue
+        else:
+            break
 
 
 # Using Tumblr API to find random short text posts to convert to a tweet
@@ -73,5 +103,4 @@ def tweetRandomTumblrPost():
 
 # ------------------------------------------------- #
 
-
-tweetRedditMeme()
+tweetTopMeme()
